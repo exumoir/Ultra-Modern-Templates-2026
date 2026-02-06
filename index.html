@@ -1,1 +1,200 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ARTIST_NAME | VORTEX GALLERY</title>
+    <link href="https://fonts.googleapis.com/css2?family=Italiana&family=Montserrat:wght@200;400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0a0a0a;
+            --text: #f0f0f0;
+            --accent: #ff3c00; /* Orange brûlé hyper dynamique */
+        }
 
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Montserrat', sans-serif;
+            overflow: hidden; /* On bloque le scroll vertical pour l'horizontal */
+        }
+
+        /* --- CURSEUR ARTISTIQUE --- */
+        #cursor {
+            position: fixed; width: 12px; height: 12px; background: #fff;
+            border-radius: 50%; pointer-events: none; z-index: 10000;
+            mix-blend-mode: difference; transition: transform 0.1s;
+        }
+
+        /* --- HEADER MINIMALISTE --- */
+        nav {
+            position: fixed; top: 0; width: 100%; padding: 40px;
+            display: flex; justify-content: space-between; z-index: 100;
+            mix-blend-mode: difference;
+        }
+        .logo { font-family: 'Italiana', serif; font-size: 1.8rem; letter-spacing: 2px; }
+
+        /* --- CONTENEUR DE GALERIE HORIZONTALE --- */
+        .gallery-wrapper {
+            display: flex;
+            align-items: center;
+            height: 100vh;
+            padding: 0 10vw;
+            gap: 10vw;
+            will-change: transform;
+        }
+
+        .gallery-item {
+            position: relative;
+            flex-shrink: 0;
+            width: 30vw;
+            height: 60vh;
+            background: #151515;
+            overflow: hidden;
+            transition: 0.8s cubic-bezier(0.2, 1, 0.3, 1);
+            filter: grayscale(1);
+        }
+
+        .gallery-item:hover {
+            width: 40vw;
+            filter: grayscale(0);
+        }
+
+        /* Placeholder pour tes futures images */
+        .gallery-item::after {
+            content: "PROJECT_IMAGE";
+            position: absolute; top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 0.8rem; letter-spacing: 5px; opacity: 0.3;
+        }
+
+        .item-info {
+            position: absolute; bottom: -50px; left: 0;
+            transition: 0.5s;
+        }
+
+        .gallery-item:hover .item-info {
+            bottom: 20px;
+            left: 20px;
+        }
+
+        .item-info h2 { font-family: 'Italiana', serif; font-size: 2.5rem; }
+
+        /* --- BARRE DE PROGRESSION --- */
+        .progress-container {
+            position: fixed; bottom: 50px; left: 10%; width: 80%;
+            height: 2px; background: rgba(255,255,255,0.1);
+        }
+        .progress-bar {
+            width: 0%; height: 100%; background: var(--accent);
+            transition: 0.1s;
+        }
+
+        /* --- BACKGROUND GRAIN --- */
+        .grain {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: url('https://grainy-gradients.vercel.app/noise.svg');
+            opacity: 0.04; pointer-events: none; z-index: 50;
+        }
+
+        /* --- OVERLAY DE TRANSITION --- */
+        .reveal {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: #000; z-index: 1000; transition: 1.5s ease-in-out;
+        }
+
+    </style>
+</head>
+<body onload="document.querySelector('.reveal').style.transform = 'translateY(-100%)'">
+
+    <div class="reveal"></div>
+    <div id="cursor"></div>
+    <div class="grain"></div>
+
+    <nav>
+        <div class="logo">EXUMOIR_GALLERY</div>
+        <div>INFO / CONTACT</div>
+    </nav>
+
+    <div class="gallery-wrapper" id="slider">
+        <div class="gallery-item">
+            <div class="item-info">
+                <span>2026</span>
+                <h2>CYBER_DREAM</h2>
+            </div>
+        </div>
+        <div class="gallery-item">
+            <div class="item-info">
+                <span>2025</span>
+                <h2>NEON_SOUL</h2>
+            </div>
+        </div>
+        <div class="gallery-item">
+            <div class="item-info">
+                <span>2026</span>
+                <h2>VOID_ARCH</h2>
+            </div>
+        </div>
+        <div class="gallery-item">
+            <div class="item-info">
+                <span>2024</span>
+                <h2>DARK_MATTER</h2>
+            </div>
+        </div>
+        <div class="gallery-item">
+            <div class="item-info">
+                <span>2026</span>
+                <h2>GLITCH_GEN</h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="progress-container">
+        <div class="progress-bar" id="bar"></div>
+    </div>
+
+    <script>
+        // CURSEUR
+        const cursor = document.getElementById('cursor');
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.transform = `translate(${e.clientX - 6}px, ${e.clientY - 6}px)`;
+        });
+
+        // SCROLL HORIZONTAL AU SCROLL VERTICAL
+        const slider = document.getElementById('slider');
+        const bar = document.getElementById('bar');
+        let scrollPos = 0;
+        
+        window.addEventListener('wheel', (e) => {
+            e.preventDefault();
+            // On calcule la vitesse du scroll
+            scrollPos += e.deltaY;
+            // Limites du scroll
+            const maxScroll = slider.scrollWidth - window.innerWidth + (window.innerWidth * 0.2);
+            if (scrollPos < 0) scrollPos = 0;
+            if (scrollPos > maxScroll) scrollPos = maxScroll;
+
+            // Animation du slider
+            slider.style.transform = `translateX(${-scrollPos}px)`;
+
+            // Mise à jour barre de progression
+            const percentage = (scrollPos / maxScroll) * 100;
+            bar.style.width = percentage + "%";
+        }, { passive: false });
+
+        // EFFET DE DISTORSION SUR LES TITRES
+        document.querySelectorAll('.gallery-item').forEach(item => {
+            item.addEventListener('mouseenter', () => {
+                cursor.style.transform += ' scale(5)';
+                cursor.style.background = 'var(--accent)';
+            });
+            item.addEventListener('mouseleave', () => {
+                cursor.style.transform = cursor.style.transform.replace(' scale(5)', '');
+                cursor.style.background = '#fff';
+            });
+        });
+    </script>
+</body>
+</html>
