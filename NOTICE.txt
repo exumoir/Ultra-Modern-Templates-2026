@@ -1,0 +1,35 @@
+===========================================================
+   EXU_CRAFT | UI_MODULE : DOCUMENTATION
+===========================================================
+
+FRANÇAIS :
+Merci pour votre achat ! Voici comment déployer votre template.
+
+1. CONFIGURATION :
+   Ouvrez 'index.html' avec n'importe quel éditeur de texte (VS Code, Notepad++).
+2. PERSONNALISATION DES COULEURS :
+   Cherchez la section ':root' en haut du fichier CSS. 
+   Modifiez les variables '--primary' ou '--accent' pour changer l'univers visuel.
+3. TEXTES :
+   Modifiez simplement les balises <h1>, <p> et <span> pour vos propres besoins.
+4. DÉPLOIEMENT :
+   Téléchargez les fichiers sur votre serveur via FTP ou via GitHub Pages.
+
+-----------------------------------------------------------
+
+ENGLISH:
+Thank you for your purchase! Here is how to deploy your template.
+
+1. SETUP:
+   Open 'index.html' with any text editor (VS Code, Sublime Text).
+2. CUSTOM COLORS:
+   Find the ':root' section at the top of the CSS. 
+   Change the '--primary' or '--accent' variables to update the theme.
+3. TEXT CONTENT:
+   Edit the <h1>, <p>, and <span> tags with your own content.
+4. DEPLOYMENT:
+   Upload the files to your server via FTP or use GitHub Pages.
+
+===========================================================
+SUPPORT: exumoir.studio@gmail.com (ou ton contact)
+===========================================================
