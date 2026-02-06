@@ -180,6 +180,148 @@
     <div class="progress-container">
         <div class="progress-bar" id="bar"></div>
     </div>
+    <section class="cyber-contact">
+    <div class="contact-grid">
+        <div class="contact-header">
+            <span class="status-light"></span>
+            <p class="glitch" data-text="ESTABLISH_CONNECTION">ESTABLISH_CONNECTION</p>
+            <h1>TRAVAILLONS<br>ENSEMBLE</h1>
+        </div>
+
+        <form class="cyber-form">
+            <div class="input-group">
+                <label>ID_UTILISATEUR</label>
+                <input type="text" placeholder="NOM OU PSEUDO..." required>
+                <div class="scan-line"></div>
+            </div>
+            
+            <div class="input-group">
+                <label>CANAL_COMMUNICATION</label>
+                <input type="email" placeholder="EMAIL@SECURE.COM..." required>
+                <div class="scan-line"></div>
+            </div>
+
+            <div class="input-group">
+                <label>TRANSMISSION_DATA</label>
+                <textarea rows="4" placeholder="VOTRE PROJET ICI..."></textarea>
+                <div class="scan-line"></div>
+            </div>
+
+            <button type="submit" class="cyber-btn">
+                <span class="btn-text">ENVOYER_PAQUET</span>
+                <span class="btn-glitch"></span>
+            </button>
+        </form>
+    </div>
+</section>
+
+<style>
+    .cyber-contact {
+        min-height: 100vh;
+        padding: 100px 10%;
+        background: #050505;
+        display: flex;
+        align-items: center;
+        border-top: 1px solid var(--accent);
+    }
+
+    .contact-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 100px;
+        width: 100%;
+    }
+
+    .status-light {
+        width: 10px; height: 10px;
+        background: var(--accent);
+        display: inline-block;
+        border-radius: 50%;
+        box-shadow: 0 0 15px var(--accent);
+        animation: blink 1s infinite;
+    }
+
+    .contact-header h1 {
+        font-family: 'Italiana', serif;
+        font-size: 5rem;
+        margin-top: 20px;
+        line-height: 0.9;
+    }
+
+    .cyber-form {
+        display: flex;
+        flex-direction: column;
+        gap: 40px;
+    }
+
+    .input-group {
+        position: relative;
+        border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .input-group label {
+        display: block;
+        font-size: 0.7rem;
+        color: var(--accent);
+        letter-spacing: 3px;
+        margin-bottom: 10px;
+    }
+
+    .input-group input, .input-group textarea {
+        width: 100%;
+        background: transparent;
+        border: none;
+        color: white;
+        padding: 10px 0;
+        font-family: 'Montserrat', sans-serif;
+        font-size: 1.2rem;
+        outline: none;
+    }
+
+    /* EFFET LASER SCANNER */
+    .scan-line {
+        position: absolute;
+        bottom: -1px; left: 0;
+        width: 0%; height: 2px;
+        background: var(--accent);
+        box-shadow: 0 0 10px var(--accent);
+        transition: 0.5s ease;
+    }
+
+    .input-group input:focus ~ .scan-line,
+    .input-group textarea:focus ~ .scan-line {
+        width: 100%;
+    }
+
+    /* BOUTON CYBER */
+    .cyber-btn {
+        background: transparent;
+        border: 1px solid var(--accent);
+        color: var(--accent);
+        padding: 20px;
+        font-weight: bold;
+        letter-spacing: 5px;
+        position: relative;
+        overflow: hidden;
+        transition: 0.3s;
+        cursor: pointer;
+    }
+
+    .cyber-btn:hover {
+        background: var(--accent);
+        color: black;
+        box-shadow: 0 0 30px var(--accent);
+    }
+
+    @keyframes blink {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.3; }
+    }
+
+    @media (max-width: 900px) {
+        .contact-grid { grid-template-columns: 1fr; gap: 50px; }
+    }
+</style>
     <script>
 const cursor = document.getElementById('cursor');
 const slider = document.getElementById('slider');
