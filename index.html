@@ -8,8 +8,10 @@
     <style>
         :root {
             --bg: #020205;
-            --accent: #ff3c00;
-            --secondary: #00f2ff;
+            --t1: #ff3c00; /* Vortex */
+            --t2: #00f2ff; /* Neural */
+            --t3: #bc13fe; /* Vault */
+            --t4: #00ff41; /* Profile */
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -17,92 +19,89 @@
             background: var(--bg); 
             color: white; 
             font-family: 'Space Grotesk', sans-serif; 
-            overflow: hidden;
+            min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            padding: 50px 0;
         }
 
-        /* --- BACKGROUND DEEP GRID --- */
         .grid-bg {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background-image: linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px),
-                              linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px);
-            background-size: 50px 50px;
-            perspective: 1000px;
+            background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+                              linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+            background-size: 40px 40px;
             z-index: 0;
         }
 
-        /* --- HUB CONTAINER --- */
         .hub-container {
-            position: relative;
-            z-index: 1;
+            position: relative; z-index: 1;
+            width: 90%; max-width: 1200px;
             text-align: center;
-            width: 90%;
-            max-width: 1200px;
         }
 
-        .hub-header { margin-bottom: 60px; }
-        .hub-header h1 { font-size: 1rem; letter-spacing: 10px; opacity: 0.5; margin-bottom: 10px; }
-        .hub-header p { font-size: 2.5rem; font-weight: 700; }
+        .hub-header { margin-bottom: 50px; }
+        .hub-header h1 { font-size: 0.8rem; letter-spacing: 8px; opacity: 0.5; text-transform: uppercase; }
+        .hub-header p { font-size: clamp(1.5rem, 5vw, 2.5rem); font-weight: 700; margin-top: 10px; }
 
+        /* GRID DES 4 CARTES */
         .selection-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 40px;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
         }
 
-        /* --- CARD STYLE --- */
         .hub-card {
             position: relative;
-            height: 400px;
+            height: 350px;
             background: #0a0a0f;
             border: 1px solid rgba(255,255,255,0.1);
             overflow: hidden;
             text-decoration: none;
             color: white;
-            transition: 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             display: flex;
             flex-direction: column;
             justify-content: flex-end;
-            padding: 40px;
-            text-align: left;
+            padding: 30px;
         }
 
         .hub-card:hover {
             border-color: var(--color);
-            transform: scale(1.02);
-            box-shadow: 0 0 50px rgba(0,0,0,0.5);
+            transform: translateY(-10px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
 
-        .hub-card::before {
-            content: "";
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(transparent, rgba(0,0,0,0.8));
-            z-index: 1;
-        }
-
-        /* Image de fond simulée */
         .card-bg {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             background-size: cover; background-position: center;
-            opacity: 0.4; transition: 0.8s;
+            opacity: 0.3; transition: 0.6s;
             z-index: 0;
         }
-        .hub-card:hover .card-bg { opacity: 0.7; transform: scale(1.1); }
+        .hub-card:hover .card-bg { opacity: 0.6; transform: scale(1.1); }
 
-        .card-content { position: relative; z-index: 2; }
-        .card-content span { font-size: 0.7rem; letter-spacing: 3px; color: var(--color); }
-        .card-content h2 { font-size: 2rem; margin-top: 10px; }
+        .card-content { position: relative; z-index: 2; text-align: left; }
+        .card-content span { font-size: 0.6rem; letter-spacing: 2px; color: var(--color); font-weight: bold; }
+        .card-content h2 { font-size: 1.5rem; margin-top: 5px; }
 
-        /* Couleurs spécifiques */
-        .vortex { --color: var(--accent); }
-        .neural { --color: var(--secondary); }
+        /* CLASSES SPECIFIQUES */
+        .vortex { --color: var(--t1); }
+        .neural { --color: var(--t2); }
+        .vault { --color: var(--t3); }
+        .profile { --color: var(--t4); }
 
-        @media (max-width: 768px) {
-            .selection-grid { grid-template-columns: 1fr; }
-            body { overflow-y: auto; height: auto; padding: 50px 0; }
+        /* PETIT EFFET DE SCAN AU SURVOL */
+        .hub-card::after {
+            content: ""; position: absolute; top: 0; left: -100%;
+            width: 50%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent);
+            transition: 0.5s;
+        }
+        .hub-card:hover::after { left: 100%; }
+
+        @media (max-width: 600px) {
+            .hub-container { width: 95%; }
+            .hub-card { height: 250px; }
         }
     </style>
 </head>
@@ -112,34 +111,44 @@
 
     <div class="hub-container">
         <header class="hub-header">
-            <h1>SELECT_MODULE_TO_LOAD</h1>
-            <p>EXU_CRAFT INTERFACE v2.0</p>
+            <h1>S_SYSTEM_CORE_V2</h1>
+            <p>EXUMOIR_LABS / PORTFOLIO</p>
         </header>
 
         <div class="selection-grid">
             <a href="template-01/index.html" class="hub-card vortex">
-                <div class="card-bg" style="background-image: url('https://images.unsplash.com/photo-1614850523296-d8c1af93d400?q=80&w=1000');"></div>
+                <div class="card-bg" style="background-image: url('https://images.unsplash.com/photo-1614850523296-d8c1af93d400?q=80&w=600');"></div>
                 <div class="card-content">
-                    <span>VISUAL_EXPERIENCE</span>
-                    <h2>VORTEX GALLERY</h2>
+                    <span>#VISUAL_EXP</span>
+                    <h2>VORTEX_GALLERY</h2>
                 </div>
             </a>
 
             <a href="template-02/index.html" class="hub-card neural">
-                <div class="card-bg" style="background-image: url('https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=1000');"></div>
+                <div class="card-bg" style="background-image: url('https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=600');"></div>
                 <div class="card-content">
-                    <span>AI_INFRASTRUCTURE</span>
-                    <h2>NEURAL STARTUP</h2>
+                    <span>#AI_NETWORK</span>
+                    <h2>NEURAL_STARTUP</h2>
+                </div>
+            </a>
+
+            <a href="template-03/index.html" class="hub-card vault">
+                <div class="card-bg" style="background-image: url('https://images.unsplash.com/photo-1558591710-4b4a1ae0f04d?q=80&w=600');"></div>
+                <div class="card-content">
+                    <span>#BLOCKCHAIN</span>
+                    <h2>THE_VAULT</h2>
+                </div>
+            </a>
+
+            <a href="template-04/index.html" class="hub-card profile">
+                <div class="card-bg" style="background-image: url('https://images.unsplash.com/photo-1535223289827-42f1e9919769?q=80&w=600');"></div>
+                <div class="card-content">
+                    <span>#IDENTITY</span>
+                    <h2>BIO_INTERFACE</h2>
                 </div>
             </a>
         </div>
     </div>
-<a href="template-03/index.html" class="hub-card vault" style="--color: #bc13fe;">
-    <div class="card-bg" style="background-image: url('https://images.unsplash.com/photo-1558591710-4b4a1ae0f04d?q=80&w=1000');"></div>
-    <div class="card-content">
-        <span>CRYPTO_ASSETS</span>
-        <h2>THE VAULT STORE</h2>
-    </div>
-</a>
+
 </body>
 </html>
