@@ -3,152 +3,119 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EXU_CRAFT | SELECTION_HUB</title>
+    <title>EXU_CRAFT | PREMIUM TEMPLATES</title>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;700&display=swap" rel="stylesheet">
     <style>
         :root {
             --bg: #020205;
-            --t1: #ff3c00; /* Vortex */
-            --t2: #00f2ff; /* Neural */
-            --t3: #bc13fe; /* Vault */
-            --t4: #00ff41; /* Profile */
+            --t1: #ff3c00; --t2: #00f2ff; --t3: #bc13fe; --t4: #00ff41;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { 
-            background: var(--bg); 
-            color: white; 
-            font-family: 'Space Grotesk', sans-serif; 
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 50px 0;
-        }
+        body { background: var(--bg); color: white; font-family: 'Space Grotesk', sans-serif; overflow-x: hidden; }
 
-        .grid-bg {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
-                              linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
-            background-size: 40px 40px;
-            z-index: 0;
-        }
+        .grid-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px); background-size: 40px 40px; z-index: 0; }
 
-        .hub-container {
-            position: relative; z-index: 1;
-            width: 90%; max-width: 1200px;
-            text-align: center;
-        }
+        .hub-container { position: relative; z-index: 1; width: 90%; max-width: 1200px; margin: 100px auto; text-align: center; }
 
-        .hub-header { margin-bottom: 50px; }
-        .hub-header h1 { font-size: 0.8rem; letter-spacing: 8px; opacity: 0.5; text-transform: uppercase; }
-        .hub-header p { font-size: clamp(1.5rem, 5vw, 2.5rem); font-weight: 700; margin-top: 10px; }
+        .hub-header { margin-bottom: 80px; }
+        .hub-header h1 { font-size: 0.8rem; letter-spacing: 10px; color: var(--t2); }
+        .hub-header p { font-size: 3rem; font-weight: 700; margin: 10px 0; }
+        .badge { background: #111; border: 1px solid #333; padding: 5px 15px; border-radius: 20px; font-size: 0.7rem; color: #888; }
 
-        /* GRID DES 4 CARTES */
-        .selection-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 25px;
-        }
+        /* GRID */
+        .selection-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; }
 
         .hub-card {
-            position: relative;
-            height: 350px;
-            background: #0a0a0f;
-            border: 1px solid rgba(255,255,255,0.1);
-            overflow: hidden;
-            text-decoration: none;
-            color: white;
-            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-end;
-            padding: 30px;
+            position: relative; height: 400px; background: #0a0a0f; border: 1px solid rgba(255,255,255,0.1); overflow: hidden;
+            display: flex; flex-direction: column; justify-content: flex-end; padding: 30px; transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); text-decoration: none; color: white;
         }
+        .hub-card:hover { border-color: var(--color); transform: translateY(-10px); }
 
-        .hub-card:hover {
-            border-color: var(--color);
-            transform: translateY(-10px);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-        }
-
-        .card-bg {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background-size: cover; background-position: center;
-            opacity: 0.3; transition: 0.6s;
-            z-index: 0;
-        }
+        .card-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-size: cover; background-position: center; opacity: 0.3; transition: 0.6s; z-index: 0; }
         .hub-card:hover .card-bg { opacity: 0.6; transform: scale(1.1); }
 
         .card-content { position: relative; z-index: 2; text-align: left; }
-        .card-content span { font-size: 0.6rem; letter-spacing: 2px; color: var(--color); font-weight: bold; }
-        .card-content h2 { font-size: 1.5rem; margin-top: 5px; }
+        .card-content h2 { font-size: 1.5rem; margin: 5px 0; }
+        .price-tag { font-size: 1.2rem; font-weight: bold; color: var(--color); }
 
-        /* CLASSES SPECIFIQUES */
-        .vortex { --color: var(--t1); }
-        .neural { --color: var(--t2); }
-        .vault { --color: var(--t3); }
-        .profile { --color: var(--t4); }
+        .btn-view { margin-top: 15px; padding: 10px; border: 1px solid white; display: block; text-align: center; font-size: 0.7rem; letter-spacing: 2px; transition: 0.3s; }
+        .hub-card:hover .btn-view { background: white; color: black; }
 
-        /* PETIT EFFET DE SCAN AU SURVOL */
-        .hub-card::after {
-            content: ""; position: absolute; top: 0; left: -100%;
-            width: 50%; height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent);
-            transition: 0.5s;
-        }
-        .hub-card:hover::after { left: 100%; }
+        /* SERVICES SECTION */
+        .services { margin-top: 150px; padding: 60px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); text-align: left; }
+        .services h3 { font-size: 2rem; margin-bottom: 20px; color: var(--t2); }
+        .service-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 40px; }
+        .service-item h4 { margin-bottom: 10px; color: white; }
+        .service-item p { font-size: 0.9rem; color: #888; }
 
-        @media (max-width: 600px) {
-            .hub-container { width: 95%; }
-            .hub-card { height: 250px; }
-        }
+        .vortex { --color: var(--t1); } .neural { --color: var(--t2); } .vault { --color: var(--t3); } .profile { --color: var(--t4); }
     </style>
 </head>
 <body>
-
     <div class="grid-bg"></div>
-
     <div class="hub-container">
         <header class="hub-header">
-            <h1>S_SYSTEM_CORE_V2</h1>
-            <p>EXUMOIR_LABS / PORTFOLIO</p>
+            <span class="badge">V2.0 STABLE - COMMERCIAL ACCESS</span>
+            <p>UI_FORGE : EXU_CRAFT</p>
+            <h1>DESIGNS FUTURISTES POUR STARTUPS IA & WEB3</h1>
         </header>
 
         <div class="selection-grid">
             <a href="template-01/index.html" class="hub-card vortex">
                 <div class="card-bg" style="background-image: url('https://images.unsplash.com/photo-1614850523296-d8c1af93d400?q=80&w=600');"></div>
                 <div class="card-content">
-                    <span>#VISUAL_EXP</span>
+                    <span class="price-tag">29€</span>
                     <h2>VORTEX_GALLERY</h2>
+                    <span class="btn-view">ACHETER</span>
                 </div>
             </a>
 
             <a href="template-02/index.html" class="hub-card neural">
                 <div class="card-bg" style="background-image: url('https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=600');"></div>
                 <div class="card-content">
-                    <span>#AI_NETWORK</span>
-                    <h2>NEURAL_STARTUP</h2>
+                    <span class="price-tag">39€</span>
+                    <h2>NEURAL_OS</h2>
+                    <span class="btn-view">ACHETER</span>
                 </div>
             </a>
 
             <a href="template-03/index.html" class="hub-card vault">
                 <div class="card-bg" style="background-image: url('https://images.unsplash.com/photo-1558591710-4b4a1ae0f04d?q=80&w=600');"></div>
                 <div class="card-content">
-                    <span>#BLOCKCHAIN</span>
+                    <span class="price-tag">45€</span>
                     <h2>THE_VAULT</h2>
+                    <span class="btn-view">ACHETER</span>
                 </div>
             </a>
 
             <a href="template-04/index.html" class="hub-card profile">
                 <div class="card-bg" style="background-image: url('https://images.unsplash.com/photo-1535223289827-42f1e9919769?q=80&w=600');"></div>
                 <div class="card-content">
-                    <span>#IDENTITY</span>
+                    <span class="price-tag">FREE*</span>
                     <h2>BIO_INTERFACE</h2>
+                    <span class="btn-view">ACHETER</span>
                 </div>
             </a>
         </div>
-    </div>
 
+        <section class="services">
+            <h3>BESOIN D'UN DESIGN SUR-MESURE ?</h3>
+            <div class="service-list">
+                <div class="service-item">
+                    <h4>Custom UI/UX</h4>
+                    <p>Je crée votre interface unique de A à Z. À partir de 800€.</p>
+                </div>
+                <div class="service-item">
+                    <h4>Déploiement Web3</h4>
+                    <p>Intégration de paiements crypto et dApps. À partir de 1500€.</p>
+                </div>
+                <div class="service-item">
+                    <h4>Maintenance</h4>
+                    <p>Support technique et mises à jour mensuelles. 99€/mois.</p>
+                </div>
+            </div>
+        </section>
+    </div>
 </body>
 </html>
