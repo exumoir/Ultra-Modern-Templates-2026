@@ -104,6 +104,32 @@
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: #000; z-index: 1000; transition: 1.5s ease-in-out;
         }
+        /* Modification du curseur pour qu'il devienne une loupe */
+#cursor {
+    position: fixed;
+    width: 150px; /* Taille de la loupe */
+    height: 150px;
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    background-repeat: no-repeat;
+    background-color: rgba(0,0,0,0.5);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 10000;
+    display: none; /* Caché par défaut, activé sur les images */
+    box-shadow: 0 0 20px rgba(0,0,0,0.5), inset 0 0 15px rgba(255,255,255,0.2);
+    transform: translate(-50%, -50%); /* Centrage parfait */
+}
+
+/* On change le fond des items pour qu'ils soient prêts à être "zoomés" */
+.gallery-item {
+    background-size: cover;
+    background-position: center;
+    cursor: none; /* On cache la souris standard ici */
+}
+
+/* Ajoute des images réelles pour tester l'effet (Exemple avec Unsplash) */
+.item-1 { background-image: url('https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=1000'); }
+.item-2 { background-image: url('https://images.unsplash.com/photo-1579546678183-a84ee76d7d0e?q=80&w=1000'); }
 
     </style>
 </head>
@@ -154,47 +180,49 @@
     <div class="progress-container">
         <div class="progress-bar" id="bar"></div>
     </div>
-
     <script>
-        // CURSEUR
-        const cursor = document.getElementById('cursor');
-        document.addEventListener('mousemove', (e) => {
-            cursor.style.transform = `translate(${e.clientX - 6}px, ${e.clientY - 6}px)`;
-        });
+const cursor = document.getElementById('cursor');
+const slider = document.getElementById('slider');
+const items = document.querySelectorAll('.gallery-item');
 
-        // SCROLL HORIZONTAL AU SCROLL VERTICAL
-        const slider = document.getElementById('slider');
-        const bar = document.getElementById('bar');
-        let scrollPos = 0;
+// 1. GESTION DU SCROLL HORIZONTAL (On garde la base)
+let scrollPos = 0;
+window.addEventListener('wheel', (e) => {
+    scrollPos += e.deltaY;
+    const maxScroll = slider.scrollWidth - window.innerWidth + (window.innerWidth * 0.2);
+    scrollPos = Math.max(0, Math.min(scrollPos, maxScroll));
+    slider.style.transform = `translateX(${-scrollPos}px)`;
+    document.getElementById('bar').style.width = (scrollPos / maxScroll * 100) + "%";
+});
+
+// 2. LOGIQUE DE LA LOUPE
+document.addEventListener('mousemove', (e) => {
+    const { clientX, clientY } = e;
+    
+    // Déplacement fluide de la loupe
+    cursor.style.left = clientX + 'px';
+    cursor.style.top = clientY + 'px';
+
+    // Vérifier si on survole une image
+    const target = document.elementFromPoint(clientX, clientY);
+    if (target && target.classList.contains('gallery-item')) {
+        const rect = target.getBoundingClientRect();
         
-        window.addEventListener('wheel', (e) => {
-            e.preventDefault();
-            // On calcule la vitesse du scroll
-            scrollPos += e.deltaY;
-            // Limites du scroll
-            const maxScroll = slider.scrollWidth - window.innerWidth + (window.innerWidth * 0.2);
-            if (scrollPos < 0) scrollPos = 0;
-            if (scrollPos > maxScroll) scrollPos = maxScroll;
+        // Calcul de la position relative dans l'image (en %)
+        const x = ((clientX - rect.left) / rect.width) * 100;
+        const y = ((clientY - rect.top) / rect.height) * 100;
 
-            // Animation du slider
-            slider.style.transform = `translateX(${-scrollPos}px)`;
-
-            // Mise à jour barre de progression
-            const percentage = (scrollPos / maxScroll) * 100;
-            bar.style.width = percentage + "%";
-        }, { passive: false });
-
-        // EFFET DE DISTORSION SUR LES TITRES
-        document.querySelectorAll('.gallery-item').forEach(item => {
-            item.addEventListener('mouseenter', () => {
-                cursor.style.transform += ' scale(5)';
-                cursor.style.background = 'var(--accent)';
-            });
-            item.addEventListener('mouseleave', () => {
-                cursor.style.transform = cursor.style.transform.replace(' scale(5)', '');
-                cursor.style.background = '#fff';
-            });
-        });
-    </script>
+        // On affiche la loupe et on récupère l'image de fond
+        cursor.style.display = 'block';
+        const bgImg = window.getComputedStyle(target).backgroundImage;
+        cursor.style.backgroundImage = bgImg;
+        cursor.style.backgroundSize = (rect.width * 2) + 'px'; // Zoom x2
+        cursor.style.backgroundPosition = `${x}% ${y}%`;
+    } else {
+        cursor.style.display = 'none';
+    }
+});
+     </script>   
+  
 </body>
 </html>
