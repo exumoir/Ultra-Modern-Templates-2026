@@ -356,24 +356,11 @@
 }
 </style>
  <script>
-    const cursor = document.getElementById('cursor');
+     const cursor = document.getElementById('cursor');
 const slider = document.getElementById('slider');
 const bar = document.getElementById('bar');
 
-// 1. SCROLL HORIZONTAL
-let scrollPos = 0;
-window.addEventListener('wheel', (e) => {
-    // Désactive le scroll vertical natif pour cette section
-    if (window.scrollY < window.innerHeight) {
-        scrollPos += e.deltaY;
-        const maxScroll = slider.scrollWidth - window.innerWidth + (window.innerWidth * 0.2);
-        scrollPos = Math.max(0, Math.min(scrollPos, maxScroll));
-        slider.style.transform = `translateX(${-scrollPos}px)`;
-        bar.style.width = (scrollPos / maxScroll * 100) + "%";
-    }
-});
-
-// 2. LOGIQUE LOUPE (Améliorée)
+// 1. GESTION DU CURSEUR & LOUPE
 document.addEventListener('mousemove', (e) => {
     const { clientX, clientY } = e;
     cursor.style.left = clientX + 'px';
@@ -395,27 +382,42 @@ document.addEventListener('mousemove', (e) => {
     }
 });
 
-// 3. VALIDATION MATRIX SUR LE FORMULAIRE
+// 2. SCROLL HYBRIDE (Horizontal puis Vertical)
+let scrollPos = 0;
+window.addEventListener('wheel', (e) => {
+    const maxScroll = slider.scrollWidth - window.innerWidth + (window.innerWidth * 0.1);
+    
+    // Si on n'a pas fini de faire défiler la galerie à droite
+    if (scrollPos < maxScroll && e.deltaY > 0 || scrollPos > 0 && e.deltaY < 0) {
+        // On bloque le scroll vertical natif seulement pendant la galerie
+        if (window.scrollY < 10) { 
+            e.preventDefault();
+            scrollPos += e.deltaY;
+            scrollPos = Math.max(0, Math.min(scrollPos, maxScroll));
+            slider.style.transform = `translateX(${-scrollPos}px)`;
+            bar.style.width = (scrollPos / maxScroll * 100) + "%";
+        }
+    }
+}, { passive: false });
+
+// 3. VALIDATION MATRIX
 document.querySelector('.cyber-form').addEventListener('submit', function(e) {
     e.preventDefault();
     const btn = document.querySelector('.cyber-btn');
-    const originalText = btn.innerHTML;
-    
-    // Simulation de chargement technique
-    let count = 0;
     btn.disabled = true;
+    let count = 0;
     const interval = setInterval(() => {
-        btn.innerHTML = `ENCRYPTING_${Math.random().toString(16).substring(2, 8)}...`;
+        btn.innerHTML = `INJECTING_${Math.random().toString(16).substring(2, 8)}...`;
         count++;
         if (count > 20) {
             clearInterval(interval);
-            btn.innerHTML = "TRANSMISSION_COMPLETE_100%";
-            btn.style.background = "#fff";
-            btn.style.color = "#000";
-            alert("PAQUET REÇU : Votre message a été injecté dans le système.");
+            btn.innerHTML = "DATA_SENT_SUCCESSFULLY";
+            btn.style.background = "var(--accent)";
+            btn.style.color = "black";
         }
     }, 50);
 });
+    
   </script>
 </body>
 </html>
