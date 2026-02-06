@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>THE VAULT | SECURE STORE</title>
+    <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --neon: #bc13fe; /* Violet électrique */
+            --dark: #050505;
+            --white: #ffffff;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            background: var(--dark); 
+            color: var(--white); 
+            font-family: 'Syncopate', sans-serif; 
+            overflow-x: hidden;
+        }
+
+        /* --- BACKGROUND RADIAL --- */
+        .bg-vibe {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at 50% 50%, #1a0a2e 0%, #050505 80%);
+            z-index: -1;
+        }
+
+        /* --- HEADER --- */
+        nav { padding: 40px; display: flex; justify-content: space-between; align-items: center; }
+        .cart-status { border: 1px solid var(--neon); padding: 10px 20px; font-size: 0.7rem; color: var(--neon); box-shadow: 0 0 10px var(--neon); }
+
+        /* --- GRID SHOP --- */
+        .shop-container {
+            padding: 100px 10%;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 50px;
+        }
+
+        .product-card {
+            position: relative;
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.05);
+            padding: 20px;
+            transition: 0.5s;
+            overflow: hidden;
+        }
+
+        .product-card:hover {
+            border-color: var(--neon);
+            background: rgba(188, 19, 254, 0.05);
+            transform: translateY(-5px);
+        }
+
+        /* Effet de scanneur laser */
+        .scanner {
+            position: absolute; top: 0; left: 0; width: 100%; height: 2px;
+            background: var(--neon);
+            box-shadow: 0 0 15px var(--neon);
+            opacity: 0;
+            z-index: 5;
+        }
+        .product-card:hover .scanner {
+            animation: scan 2s infinite ease-in-out;
+            opacity: 1;
+        }
+
+        .img-container {
+            width: 100%; height: 250px;
+            background: #111;
+            margin-bottom: 20px;
+            display: flex; align-items: center; justify-content: center;
+            position: relative;
+        }
+
+        .product-card h3 { font-size: 1.2rem; margin-bottom: 10px; letter-spacing: 2px; }
+        .price { color: var(--neon); font-size: 1.5rem; margin-bottom: 20px; display: block;}
+
+        /* BOUTON MAGNÉTIQUE */
+        .buy-btn {
+            width: 100%;
+            padding: 15px;
+            background: transparent;
+            border: 1px solid var(--white);
+            color: var(--white);
+            font-family: 'Syncopate', sans-serif;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.3s;
+            position: relative;
+        }
+        .buy-btn:hover { background: var(--white); color: var(--dark); }
+
+        @keyframes scan {
+            0% { top: 0%; }
+            50% { top: 100%; }
+            100% { top: 0%; }
+        }
+
+        /* --- UI OVERLAY --- */
+        .corner { position: fixed; width: 20px; height: 20px; border: 2px solid var(--neon); z-index: 10; opacity: 0.3; }
+        .top-l { top: 20px; left: 20px; border-right: none; border-bottom: none; }
+        .top-r { top: 20px; right: 20px; border-left: none; border-bottom: none; }
+        .bot-l { bottom: 20px; left: 20px; border-right: none; border-top: none; }
+        .bot-r { bottom: 20px; right: 20px; border-left: none; border-top: none; }
+    </style>
+</head>
+<body>
+
+    <div class="bg-vibe"></div>
+    <div class="corner top-l"></div> <div class="corner top-r"></div>
+    <div class="corner bot-l"></div> <div class="corner bot-r"></div>
+
+    <nav>
+        <div class="logo">THE_VAULT_v3.0</div>
+        <div class="cart-status">CART_EMPTY // 0.00 BTC</div>
+    </nav>
+
+    <div class="shop-container">
+        <div class="product-card">
+            <div class="scanner"></div>
+            <div class="img-container">
+                <img src="https://images.unsplash.com/photo-1558591710-4b4a1ae0f04d?q=80&w=500" style="width:100%; height:100%; object-fit:cover; opacity: 0.6;">
+            </div>
+            <span>#DATA_CORE_01</span>
+            <h3>NEURAL_CHIP_V1</h3>
+            <span class="price">0.45 BTC</span>
+            <button class="buy-btn">ACQUIRE_ASSET</button>
+        </div>
+
+        <div class="product-card">
+            <div class="scanner"></div>
+            <div class="img-container">
+                <img src="https://images.unsplash.com/photo-1633356122544-f134324a6cee?q=80&w=500" style="width:100%; height:100%; object-fit:cover; opacity: 0.6;">
+            </div>
+            <span>#ENCRYPT_MOD</span>
+            <h3>VOID_ENCRYPTION</h3>
+            <span class="price">1.12 BTC</span>
+            <button class="buy-btn">ACQUIRE_ASSET</button>
+        </div>
+
+        <div class="product-card">
+            <div class="scanner"></div>
+            <div class="img-container">
+                <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=500" style="width:100%; height:100%; object-fit:cover; opacity: 0.6;">
+            </div>
+            <span>#SATELLITE_LINK</span>
+            <h3>GLOBAL_SCANNER</h3>
+            <span class="price">2.05 BTC</span>
+            <button class="buy-btn">ACQUIRE_ASSET</button>
+        </div>
+    </div>
+
+    <script>
+        // Effet de clic Matrix sur les boutons
+        document.querySelectorAll('.buy-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                btn.innerHTML = "REDIRECTING_TO_BLOCKCHAIN...";
+                btn.style.borderColor = "#bc13fe";
+                btn.style.color = "#bc13fe";
+                setTimeout(() => {
+                    alert("ERREUR : Accès refusé. Portefeuille non détecté.");
+                    btn.innerHTML = "ACQUIRE_ASSET";
+                    btn.style.color = "white";
+                    btn.style.borderColor = "white";
+                }, 1500);
+            });
+        });
+    </script>
+</body>
+</html>
