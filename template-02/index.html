@@ -94,18 +94,31 @@
             display: inline-block;
             box-shadow: 0 0 20px rgba(0, 242, 255, 0.4);
         }
+        .cursor-pipe {
+    color: var(--primary);
+    font-weight: 200;
+    margin-left: 5px;
+}
+
+.blink {
+    animation: blink-anim 0.8s infinite;
+}
+
+@keyframes blink-anim {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
     </style>
 </head>
 <body>
 
     <canvas id="particles-canvas"></canvas>
 
-    <section class="hero">
-        <p>L'INTELLIGENCE NOUVELLE GÉNÉRATION</p>
-        <h1>NEURAL_OS</h1>
-        <p>Optimisez votre workflow avec notre moteur d'IA décentralisé. Plus rapide. Plus sûr. Plus humain.</p>
-        <a href="#" class="cta-btn">DÉPLOYER MAINTENANT</a>
-    </section>
+   <section class="hero">
+    <p>L'INTELLIGENCE NOUVELLE GÉNÉRATION</p>
+    <h1 id="typing-text"></h1> <p>Optimisez votre workflow avec notre moteur d'IA décentralisé. Plus rapide. Plus sûr. Plus humain.</p>
+    <a href="#" class="cta-btn">DÉPLOYER MAINTENANT</a>
+</section>
 
     <section class="features">
         <div class="card">
@@ -195,6 +208,24 @@
         initCanvas();
         createParticles();
         animate();
+        const textElement = document.getElementById('typing-text');
+const phrase = "NEURAL_OS";
+let index = 0;
+
+function typeEffect() {
+    if (index < phrase.length) {
+        // On ajoute la lettre actuelle + un curseur vertical
+        textElement.innerHTML = phrase.slice(0, index + 1) + '<span class="cursor-pipe">|</span>';
+        index++;
+        setTimeout(typeEffect, Math.random() * 150 + 100); // Vitesse aléatoire pour faire "humain"
+    } else {
+        // Une fois fini, on fait clignoter le curseur
+        document.querySelector('.cursor-pipe').classList.add('blink');
+    }
+}
+
+// Lancement de l'effet
+setTimeout(typeEffect, 1000); // Petit délai après le chargement
     </script>
 </body>
 </html>
